@@ -13,6 +13,7 @@
 		9608E76F257E9F250094A570 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9608E76E257E9F250094A570 /* Preview Assets.xcassets */; };
 		9608E77A257E9F250094A570 /* TreNottiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9608E779257E9F250094A570 /* TreNottiTests.swift */; };
 		9608E785257E9F250094A570 /* TreNottiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9608E784257E9F250094A570 /* TreNottiUITests.swift */; };
+		9608E796257EA3E70094A570 /* TrainStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9608E795257EA3E70094A570 /* TrainStatusView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		9608E780257E9F250094A570 /* TreNottiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreNottiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9608E784257E9F250094A570 /* TreNottiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreNottiUITests.swift; sourceTree = "<group>"; };
 		9608E786257E9F250094A570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9608E795257EA3E70094A570 /* TrainStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainStatusView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				9608E767257E9F240094A570 /* TreNottiApp.swift */,
 				9608E769257E9F240094A570 /* ContentView.swift */,
+				9608E795257EA3E70094A570 /* TrainStatusView.swift */,
 				9608E76B257E9F250094A570 /* Assets.xcassets */,
 				9608E770257E9F250094A570 /* Info.plist */,
 				9608E76D257E9F250094A570 /* Preview Content */,
@@ -259,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9608E796257EA3E70094A570 /* TrainStatusView.swift in Sources */,
 				9608E76A257E9F240094A570 /* ContentView.swift in Sources */,
 				9608E768257E9F240094A570 /* TreNottiApp.swift in Sources */,
 			);
