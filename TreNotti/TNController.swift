@@ -51,6 +51,30 @@ struct OdptRailway: Codable{
     }
 }
 
+struct OdptStation: Codable{
+    var type: String
+    var sameAs: String
+    var dcTitle: String
+    var stationTitle: OdptTitle
+    var odptOperator: String
+    var railway: String
+    var stationCode: String?
+    var connectingRailway: [String]?
+    var stationTimetable: [String]?
+    
+    enum CodingKeys: String, CodingKey{
+        case type = "@type"
+        case sameAs = "owl:sameAs"
+        case dcTitle = "dc:Title"
+        case stationTitle = "odpt:stationTitle"
+        case odptOperator = "odpt:operator"
+        case railway = "odpt:railway"
+        case stationCode = "odpt:stationCode"
+        case connectingRailway = "odpt:connectingRailway"
+        case stationTimetable = "odpt:stationTimetable"
+    }
+}
+
 
 struct OdptTitle: Codable{
     var ja: String
