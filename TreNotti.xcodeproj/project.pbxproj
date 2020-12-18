@@ -19,6 +19,7 @@
 		9608E7AC257F35820094A570 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9608E7AB257F35820094A570 /* Alamofire */; };
 		96DCE386258BF049009EBB12 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE385258BF049009EBB12 /* Env.swift */; };
 		96DCE38B258BF0BC009EBB12 /* TNController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE38A258BF0BC009EBB12 /* TNController.swift */; };
+		96DCE390258BF99B009EBB12 /* railway.json in Resources */ = {isa = PBXBuildFile; fileRef = 96DCE38F258BF99A009EBB12 /* railway.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		9608E795257EA3E70094A570 /* TrainStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainStatusView.swift; sourceTree = "<group>"; };
 		96DCE385258BF049009EBB12 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		96DCE38A258BF0BC009EBB12 /* TNController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNController.swift; sourceTree = "<group>"; };
+		96DCE38F258BF99A009EBB12 /* railway.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = railway.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				96DCE385258BF049009EBB12 /* Env.swift */,
 				96DCE38A258BF0BC009EBB12 /* TNController.swift */,
 				9608E76B257E9F250094A570 /* Assets.xcassets */,
+				96DCE38F258BF99A009EBB12 /* railway.json */,
 				9608E770257E9F250094A570 /* Info.plist */,
 				9608E76D257E9F250094A570 /* Preview Content */,
 			);
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9608E76F257E9F250094A570 /* Preview Assets.xcassets in Resources */,
+				96DCE390258BF99B009EBB12 /* railway.json in Resources */,
 				9608E76C257E9F250094A570 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,7 +449,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"TreNotti/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = TreNotti/Info.plist;
@@ -467,7 +471,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"TreNotti/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = TreNotti/Info.plist;

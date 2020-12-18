@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct TrainStatusView: View {
+    @ObservedObject var controller = TNController()
+    
     var body: some View {
         NavigationView{
             Form{
