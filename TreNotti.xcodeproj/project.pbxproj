@@ -17,6 +17,7 @@
 		9608E7A4257F35550094A570 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9608E7A3257F35550094A570 /* Realm */; };
 		9608E7A6257F35550094A570 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9608E7A5257F35550094A570 /* RealmSwift */; };
 		9608E7AC257F35820094A570 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9608E7AB257F35820094A570 /* Alamofire */; };
+		969E5516258D8EBD00322029 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 969E5515258D8EBD00322029 /* KeychainAccess */; };
 		96DCE386258BF049009EBB12 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE385258BF049009EBB12 /* Env.swift */; };
 		96DCE38B258BF0BC009EBB12 /* TNController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE38A258BF0BC009EBB12 /* TNController.swift */; };
 		96DCE390258BF99B009EBB12 /* railway.json in Resources */ = {isa = PBXBuildFile; fileRef = 96DCE38F258BF99A009EBB12 /* railway.json */; };
@@ -63,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969E5516258D8EBD00322029 /* KeychainAccess in Frameworks */,
 				9608E7AC257F35820094A570 /* Alamofire in Frameworks */,
 				9608E7A6257F35550094A570 /* RealmSwift in Frameworks */,
 				9608E7A4257F35550094A570 /* Realm in Frameworks */,
@@ -168,6 +170,7 @@
 				9608E7A3257F35550094A570 /* Realm */,
 				9608E7A5257F35550094A570 /* RealmSwift */,
 				9608E7AB257F35820094A570 /* Alamofire */,
+				969E5515258D8EBD00322029 /* KeychainAccess */,
 			);
 			productName = TreNotti;
 			productReference = 9608E764257E9F240094A570 /* TreNotti.app */;
@@ -243,6 +246,7 @@
 			packageReferences = (
 				9608E7A2257F35550094A570 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 				9608E7AA257F35820094A570 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				969E5514258D8EBD00322029 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 9608E765257E9F240094A570 /* Products */;
 			projectDirPath = "";
@@ -629,6 +633,14 @@
 				minimumVersion = 5.4.0;
 			};
 		};
+		969E5514258D8EBD00322029 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -646,6 +658,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9608E7AA257F35820094A570 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		969E5515258D8EBD00322029 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 969E5514258D8EBD00322029 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
