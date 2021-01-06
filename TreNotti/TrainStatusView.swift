@@ -27,7 +27,13 @@ struct TrainStatusView: View {
                     }
                 }
             }
+            .alert(isPresented: $controller.isAlert, content: {
+                Alert(title: Text(controller.alertTitle),
+                      message: Text(controller.alertDescription),
+                      dismissButton: .default(Text("OK")))
+            })
             .navigationBarTitle(.init("運行情報一覧"))
+            
         }
     }
 }

@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 import RealmSwift
 import CoreLocation
+import KeychainAccess
 
 class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
     private let env = Env()
@@ -16,6 +17,12 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
     private var nearStationList = [OdptStation]()
     
     private var locationManager = CLLocationManager()
+    private var keyStore = Keychain(service: Bundle.main.bundleIdentifier!)
+    
+    // 通信などでエラーが発生した場合に、エラーメッセージを格納する→Alertを表示する
+    @Published var isAlert = false
+    @Published var alertTitle = ""
+    @Published var alertDescription = ""
     
     override init(){
         super.init()
@@ -30,6 +37,44 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             self.railwayList = try JSONDecoder().decode([OdptRailway].self, from: railwayJsonFileString.data(using: .utf8)!)
         }catch{
             assert(false, "FAILED TO PARSE RAILWAY JSON FILE")
+        }
+        
+        // APIキー取得済みか確認→なければ取得
+        if !(keyStore["trenotti_api_key"] != nil){
+            var parameters = Parameters()
+            parameters["device_type"] = "ios"
+            
+            let queue = DispatchQueue.global(qos: .utility)
+            let semaphore = DispatchSemaphore(value: 0)
+            
+            AF.request(URL(string: "\(env.apiUrl)/api/auth/issue-key")!, method: .post, parameters: parameters).responseData(queue: queue) { (response) in
+                switch response.result{
+                case .success(let result):
+                    do{
+                        let data = try JSONDecoder().decode(ApiKeyResponse.self, from: result)
+                        guard let key = data.token else{
+                            self.alertTitle = "エラー"
+                            self.alertDescription = "APIキーの取得に失敗しました"
+                            self.isAlert = true
+                            return
+                        }
+                        
+                        self.keyStore["trenotti_api_key"] = key
+                    }catch{
+                        self.alertTitle = "エラー"
+                        self.alertDescription = "APIキーの取得に失敗しました"
+                        self.isAlert = true
+                        return
+                    }
+                    break
+                case .failure(let error):
+                    print(error.errorDescription)
+                }
+                
+                semaphore.signal()
+            }
+            
+            semaphore.wait()
         }
         
         // 位置情報関係
@@ -73,8 +118,37 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         
         // とれノッチAPIへの登録処理
         let nearRailwayList = self.nearStationList.map{ $0.railway }
+        guard let apiKey = self.keyStore["trenotti_api_key"] else{
+            assert(false, "API KEY IS INVALID")
+        }
         
+        var headers = HTTPHeaders()
+        headers["Authorization"] = apiKey
+        var parameters = Parameters()
+        parameters["odpt:railway"] = nearRailwayList.joined(separator: ",")
+        
+        AF.request(URL(string: "\(env.apiUrl)/api/railway")!, method: .post, parameters: parameters, headers: headers).responseData { (response) in
+            if response.response?.statusCode != 200{
+                self.alertTitle = "エラー"
+                self.alertDescription = "路線情報の登録に失敗しました"
+                self.isAlert = true
+                return
+            }
+            
+            guard let responseData = response.data else{
+                assert(false, "INTERNAL SERVER ERROR")
+            }
+            
+            let registeredRailwayList = try! JSONDecoder().decode([String].self, from: responseData)
+            print(registeredRailwayList)
+        }
     }
+}
+
+struct ApiKeyResponse: Codable{
+    var status: String
+    var description: String?
+    var token: String?
 }
 
 struct OdptRailway: Codable{
