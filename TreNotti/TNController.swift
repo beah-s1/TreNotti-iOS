@@ -39,44 +39,6 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             assert(false, "FAILED TO PARSE RAILWAY JSON FILE")
         }
         
-        // APIキー取得済みか確認→なければ取得
-        if !(keyStore["trenotti_api_key"] != nil){
-            var parameters = Parameters()
-            parameters["device_type"] = "ios"
-            
-            let queue = DispatchQueue.global(qos: .utility)
-            let semaphore = DispatchSemaphore(value: 0)
-            
-            AF.request(URL(string: "\(env.apiUrl)/api/auth/issue-key")!, method: .post, parameters: parameters).responseData(queue: queue) { (response) in
-                switch response.result{
-                case .success(let result):
-                    do{
-                        let data = try JSONDecoder().decode(ApiKeyResponse.self, from: result)
-                        guard let key = data.token else{
-                            self.alertTitle = "エラー"
-                            self.alertDescription = "APIキーの取得に失敗しました"
-                            self.isAlert = true
-                            return
-                        }
-                        
-                        self.keyStore["trenotti_api_key"] = key
-                    }catch{
-                        self.alertTitle = "エラー"
-                        self.alertDescription = "APIキーの取得に失敗しました"
-                        self.isAlert = true
-                        return
-                    }
-                    break
-                case .failure(let error):
-                    print(error.errorDescription)
-                }
-                
-                semaphore.signal()
-            }
-            
-            semaphore.wait()
-        }
-        
         // 位置情報関係
         locationManager.delegate = self
         
@@ -145,7 +107,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
     }
 }
 
-struct ApiKeyResponse: Codable{
+struct ApiResponse: Codable{
     var status: String
     var description: String?
     var token: String?

@@ -54,6 +54,7 @@
 		9608E784257E9F250094A570 /* TreNottiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreNottiUITests.swift; sourceTree = "<group>"; };
 		9608E786257E9F250094A570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9608E795257EA3E70094A570 /* TrainStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainStatusView.swift; sourceTree = "<group>"; };
+		96A04A2D25A615FB00549DD5 /* TreNotti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TreNotti.entitlements; sourceTree = "<group>"; };
 		96DCE385258BF049009EBB12 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		96DCE38A258BF0BC009EBB12 /* TNController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNController.swift; sourceTree = "<group>"; };
 		96DCE38F258BF99A009EBB12 /* railway.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = railway.json; sourceTree = "<group>"; };
@@ -111,6 +112,7 @@
 		9608E766257E9F240094A570 /* TreNotti */ = {
 			isa = PBXGroup;
 			children = (
+				96A04A2D25A615FB00549DD5 /* TreNotti.entitlements */,
 				9608E767257E9F240094A570 /* TreNottiApp.swift */,
 				9608E769257E9F240094A570 /* ContentView.swift */,
 				9608E795257EA3E70094A570 /* TrainStatusView.swift */,
@@ -452,7 +454,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
@@ -464,6 +468,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = jp.beah.TreNotti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "TreNotti-Dev";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -474,7 +479,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
@@ -486,6 +493,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = jp.beah.TreNotti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "TreNotti-Dev";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
