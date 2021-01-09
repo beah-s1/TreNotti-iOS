@@ -1,5 +1,5 @@
 //
-//  TrainStatusView.swift
+//  TrainInformationListView.swift
 //  TreNotti
 //
 //  Created by Kentaro Abe on 2020/12/08.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TrainStatusView: View {
+struct TrainInformationListView: View {
     @ObservedObject var controller = TNController()
     
     var body: some View {
@@ -70,7 +70,7 @@ struct StatusCell: View {
 struct TrainStatusView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TrainStatusView()
+            TrainInformationListView()
                 .previewDevice("iPhone 11")
         }
     }

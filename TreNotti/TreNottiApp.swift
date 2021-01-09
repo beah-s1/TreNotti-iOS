@@ -14,7 +14,7 @@ struct TreNottiApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            TrainStatusView()
+            TrainInformationListView()
         }
     }
 }
