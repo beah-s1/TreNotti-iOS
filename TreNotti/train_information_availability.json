@@ -1,0 +1,14 @@
+[
+    "odpt.Operator:JR-East",
+    "odpt.Operator:TokyoMetro",
+    "odpt.Operator:Toei",
+    "odpt.Operator:Tobu",
+    "odpt.Operator:Seibu",
+    "odpt.Operator:Keisei",
+    "odpt.Operator:Keio",
+    "odpt.Operator:Tokyu",
+    "odpt.Operator:Keikyu",
+    "odpt.Operator:TWR",
+    "odpt.Operator:YokohamaMunicipal",
+    "odpt.Operator:SendaiMunicipal"
+]

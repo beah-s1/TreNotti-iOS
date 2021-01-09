@@ -14,16 +14,21 @@ struct TrainStatusView: View {
     var body: some View {
         NavigationView{
             Form{
-                Section(header: Text("現在地付近の路線")){
+                Section(header: Text("登録済みの路線")){
                     List{
-                        StatusCell(railwayTitle: "AA鉄道 BB線", railwayStatus: "平常運行")
+                        ForEach(controller.registeredRailwayTrainInformation){ information in
+                            StatusCell(railwayTitle: "\(controller.getRailway(key: information.odptRailway).railwayTitle.ja)",
+                                       railwayStatus: "\(information.trainInformationStatus.ja)")
+                        }
                     }
                 }
                 
-                Section(header: Text("手動で登録済みの路線")) {
+                Section(header: Text("その他の路線")) {
                     List{
-                        StatusCell(railwayTitle: "AA鉄道 BB線", railwayStatus: "遅延")
-                        StatusCell(railwayTitle: "AA鉄道 CC線", railwayStatus: "運転再開見込")
+                        ForEach(controller.otherRailwayTrainInformation){ information in
+                            StatusCell(railwayTitle: "\(controller.getRailway(key: information.odptRailway).railwayTitle.ja)",
+                                       railwayStatus: "\(information.trainInformationStatus.ja)")
+                        }
                     }
                 }
             }
@@ -48,7 +53,7 @@ struct StatusCell: View {
                 .fill(Color.gray)
                 .frame(width: 30)
                 .padding([.top, .bottom], -10)
-                .padding(.leading, -20)
+                .padding(.leading, -16)
             
             VStack(alignment: .leading){
                 Text(railwayTitle)

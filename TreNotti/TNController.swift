@@ -19,10 +19,17 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
     private var locationManager = CLLocationManager()
     private var keyStore = Keychain(service: Bundle.main.bundleIdentifier!)
     
+    // 運行情報
+    @Published var registeredRailwayTrainInformation = [OdptTrainInformation]()
+    @Published var otherRailwayTrainInformation = [OdptTrainInformation]()
+    
     // 通信などでエラーが発生した場合に、エラーメッセージを格納する→Alertを表示する
     @Published var isAlert = false
     @Published var alertTitle = ""
     @Published var alertDescription = ""
+    
+    // 登録された路線のリスト（String）
+    var registeredRailwayList = [String]()
     
     override init(){
         super.init()
@@ -39,6 +46,21 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             assert(false, "FAILED TO PARSE RAILWAY JSON FILE")
         }
         
+        // 運行情報が利用可能な事業者の取得
+        guard let trainInformationAvailabilityFileUrl = Bundle.main.path(forResource: "train_information_availability", ofType: "json") else{
+            assert(false, "FAILED TO GET TRAIN INFORMATION AVAILABILITY JSON FILE")
+        }
+        
+        do{
+            let trainInformationAvailabilityJsonFileString = try String(contentsOfFile: trainInformationAvailabilityFileUrl)
+            let trainInformationAvailability = try JSONDecoder().decode([String].self, from: trainInformationAvailabilityJsonFileString.data(using: .utf8)!)
+            
+            // 運行情報が利用可能な路線のみ表示するようフィルタする
+            self.railwayList = self.railwayList.filter({ trainInformationAvailability.contains($0.odptOperator) })
+        }catch{
+            assert(false, "FAILED TO PARSE TRAIN INFORMATION AVAILABILITY JSON FILE")
+        }
+        
         // 位置情報関係
         locationManager.delegate = self
         
@@ -50,6 +72,8 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         
         // 大幅位置情報変更サービスの利用
         locationManager.startMonitoringSignificantLocationChanges()
+        
+        self.updateTrainStatus()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -101,9 +125,77 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
                 assert(false, "INTERNAL SERVER ERROR")
             }
             
-            let registeredRailwayList = try! JSONDecoder().decode([String].self, from: responseData)
-            print(registeredRailwayList)
+            self.registeredRailwayList = try! JSONDecoder().decode([String].self, from: responseData)
+            print(self.registeredRailwayList)
+            
+            self.updateTrainStatus()
         }
+    }
+    
+    func updateTrainStatus(){
+        self.registeredRailwayTrainInformation.removeAll()
+        self.otherRailwayTrainInformation.removeAll()
+        
+        guard let apiKey = self.keyStore["trenotti_api_key"] else{
+            assert(false, "API KEY IS INVALID")
+        }
+        
+        var headers = HTTPHeaders()
+        headers["Authorization"] = apiKey
+        AF.request(URL(string: "\(env.apiUrl)/api/train-status")!, method: .get, headers: headers).responseData { (response) in
+            if response.response?.statusCode != 200{
+                self.alertTitle = "エラー"
+                self.alertDescription = "運行情報の取得に失敗しました"
+                self.isAlert = true
+                return
+            }
+            
+            guard let responseData = response.data else{
+                assert(false, "INTERNAL SERVER ERROR")
+            }
+            
+            do{
+                let trainStatus = try JSONDecoder().decode([OdptTrainInformation].self, from: responseData)
+                
+                for s in trainStatus{
+                    if self.registeredRailwayList.contains(s.odptRailway){
+                        self.registeredRailwayTrainInformation.append(s)
+                    }else{
+                        self.otherRailwayTrainInformation.append(s)
+                    }
+                }
+                
+                self.registeredRailwayTrainInformation.sort(by: { $0.sameAs < $1.sameAs })
+                self.otherRailwayTrainInformation.sort(by: { $0.sameAs < $1.sameAs })
+            }catch{
+                assert(false, "FAILED TO PARSE TRAIN STATUS DATA")
+            }
+            
+            print(self.registeredRailwayTrainInformation)
+        }
+    }
+    
+    func getRailway(key: String) -> OdptRailway{
+        let filteredRailwayList = self.railwayList.filter({ $0.sameAs == key })
+        
+        print(key)
+        
+        if filteredRailwayList.count != 0{
+            return filteredRailwayList[0]
+        }
+        
+        // 存在しない場合でも、未定義を指すデータを返す
+        let data = OdptRailway(type: "odpt:railway",
+                               sameAs: "odpt.Railway:Undefined.Undefined.Undefined",
+                               dcTitle: "未定義",
+                               railwayTitle: OdptTitle(ja: "未定義", en: "undefined"),
+                               odptOperator: "odpt.Operator:Undefined",
+                               lineCode: nil,
+                               color: nil,
+                               ascendingRailDirection: nil,
+                               descendingRailDirection: nil,
+                               stationOrder: [])
+        return data
     }
 }
 
@@ -170,6 +262,44 @@ struct OdptStation: Codable{
         case stationCode = "odpt:stationCode"
         case connectingRailway = "odpt:connectingRailway"
         case stationTimetable = "odpt:stationTimetable"
+    }
+}
+
+struct OdptTrainInformation: Codable, Identifiable{
+    var id: String
+    var sameAs: String
+    var odptOperator: String
+    var odptRailway: String
+    var odptTrainInformationStatus: OdptTitle?
+    var odptTrainInformationText: OdptTitle?
+    var railDirection: String?
+    var odptTrainInformationCause: OdptTitle?
+    
+    enum CodingKeys: String, CodingKey{
+        case id = "@id"
+        case sameAs = "owl:sameAs"
+        case odptOperator = "odpt:operator"
+        case odptRailway = "odpt:railway"
+        case odptTrainInformationStatus = "odpt:trainInformationStatus"
+        case odptTrainInformationText = "odpt:trainInformationText"
+        case railDirection = "odpt:railDirection"
+        case odptTrainInformationCause = "odpt:trainInformationCause"
+    }
+    
+    var trainInformationStatus: OdptTitle{
+        guard let status = self.odptTrainInformationStatus else{
+            return OdptTitle(ja: "平常運行", en: "Service on schedule")
+        }
+        
+        return status
+    }
+    
+    var trainInformationText: OdptTitle{
+        guard let status = self.odptTrainInformationText else{
+            return OdptTitle(ja: "現在平常通り運行しています。", en: nil)
+        }
+        
+        return status
     }
 }
 

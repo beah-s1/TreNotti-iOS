@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                     }
                     break
                 case .failure(let error):
-                    print(error.errorDescription)
+                    print(error.errorDescription != nil ? error.errorDescription! : "Unknown Error")
                 }
                 
                 semaphore.signal()
@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if error != nil{
-                print(error)
+                print(error.debugDescription)
                 return
             }
             
@@ -83,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         var headers = HTTPHeaders()
         headers["Authorization"] = apiKey
         var parameters = Parameters()
-        parameters["token"] = deviceToken.map{ String(format: "%2.hhx", $0) }.joined()
+        parameters["token"] = deviceToken.map{ String(format: "%02hhx", $0) }.joined()
         
         AF.request(URL(string: "\(env.apiUrl)/api/device")!, method: .post, parameters: parameters, headers: headers).responseData { (response) in
             switch response.result{
