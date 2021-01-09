@@ -10,6 +10,8 @@ import SwiftUI
 
 struct TrainInformationListView: View {
     @ObservedObject var controller = TNController()
+    @State var isPresentInformationDescription = false
+    @ObservedObject var informationViewController = TNTrainInformationController()
     
     var body: some View {
         NavigationView{
@@ -18,7 +20,12 @@ struct TrainInformationListView: View {
                     List{
                         ForEach(controller.registeredRailwayTrainInformation){ information in
                             StatusCell(railwayTitle: "\(controller.getRailway(key: information.odptRailway).railwayTitle.ja)",
-                                       railwayStatus: "\(information.trainInformationStatus.ja)")
+                                       railwayStatus: "\(information.trainInformationStatus.ja)",
+                                       isPresentDescription: isPresentInformationDescription)
+                                .onTapGesture {
+                                    self.informationViewController.status = information
+                                    self.isPresentInformationDescription.toggle()
+                                }
                         }
                     }
                 }
@@ -27,7 +34,12 @@ struct TrainInformationListView: View {
                     List{
                         ForEach(controller.otherRailwayTrainInformation){ information in
                             StatusCell(railwayTitle: "\(controller.getRailway(key: information.odptRailway).railwayTitle.ja)",
-                                       railwayStatus: "\(information.trainInformationStatus.ja)")
+                                       railwayStatus: "\(information.trainInformationStatus.ja)",
+                                       isPresentDescription: isPresentInformationDescription)
+                                .onTapGesture {
+                                    self.informationViewController.status = information
+                                    self.isPresentInformationDescription.toggle()
+                                }
                         }
                     }
                 }
@@ -37,6 +49,12 @@ struct TrainInformationListView: View {
                       message: Text(controller.alertDescription),
                       dismissButton: .default(Text("OK")))
             })
+            
+            .sheet(isPresented: $isPresentInformationDescription, onDismiss: {
+                self.controller.updateRegisteredRailwayList()
+            }){
+                TrainInformationView(controller: informationViewController)
+            }
             .navigationBarTitle(.init("運行情報一覧"))
             
         }
@@ -46,9 +64,10 @@ struct TrainInformationListView: View {
 struct StatusCell: View {
     var railwayTitle: String
     var railwayStatus: String
+    @State var isPresentDescription: Bool
     
     var body: some View{
-        HStack{
+        HStack(alignment: .center){
             Rectangle()
                 .fill(Color.gray)
                 .frame(width: 30)
@@ -63,6 +82,14 @@ struct StatusCell: View {
                     .font(.body)
                     .padding(3)
             }
+            
+            Spacer()
+            
+            Button(action: {
+                self.isPresentDescription.toggle()
+            }, label: {
+                Image(systemName: "info.circle")
+            })
         }
     }
 }

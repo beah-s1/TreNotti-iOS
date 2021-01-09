@@ -11,6 +11,7 @@ import RealmSwift
 import CoreLocation
 import KeychainAccess
 
+//MARK: Main Controller
 class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
     private let env = Env()
     private var railwayList = [OdptRailway]()
@@ -28,8 +29,11 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
     @Published var alertTitle = ""
     @Published var alertDescription = ""
     
-    // 登録された路線のリスト（String）
+    // APIに登録された路線のリスト（String）
     var registeredRailwayList = [String]()
+    
+    // データベース
+    let db = try! Realm()
     
     override init(){
         super.init()
@@ -102,8 +106,16 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             semaphore.wait()
         }
         
-        // とれノッチAPIへの登録処理
-        let nearRailwayList = self.nearStationList.map{ $0.railway }
+        updateRegisteredRailwayList()
+    }
+    
+    func updateRegisteredRailwayList(){
+        var nearRailwayList = self.nearStationList.map{ $0.railway }
+        
+        // 手動で選択された路線を追加する
+        let manualRegisteredRailwayList = db.objects(ManualRegisteredRailway.self).map{ $0.railway }
+        nearRailwayList += manualRegisteredRailwayList
+        
         guard let apiKey = self.keyStore["trenotti_api_key"] else{
             assert(false, "API KEY IS INVALID")
         }
@@ -118,6 +130,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
                 self.alertTitle = "エラー"
                 self.alertDescription = "路線情報の登録に失敗しました"
                 self.isAlert = true
+                
                 return
             }
             
@@ -199,6 +212,45 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
     }
 }
 
+//MARK: 路線運行情報の詳細表示のController
+class TNTrainInformationController: NSObject, ObservableObject{
+    @Published var status: OdptTrainInformation!
+    
+    var isRegistered: Bool{
+        return self.db.objects(ManualRegisteredRailway.self).filter{ $0.railway == self.status.odptRailway }.count == 0 ? false : true
+    }
+    
+    let db = try! Realm()
+    
+    init(_ trainStatus: OdptTrainInformation){
+        self.status = trainStatus
+    }
+    
+    override init(){
+        
+    }
+    
+    func register(){
+        // 路線を常に通知させるように登録する
+        let data = ManualRegisteredRailway()
+        data.railway = self.status.odptRailway
+        
+        try! db.write{
+            db.add(data)
+        }
+    }
+    
+    func unregister(){
+        // 登録路線から削除
+        let data = db.objects(ManualRegisteredRailway.self).filter{ $0.railway == self.status.odptRailway }
+        
+        try! db.write{
+            db.delete(data)
+        }
+    }
+}
+
+//MARK: API Responseの定義
 struct ApiResponse: Codable{
     var status: String
     var description: String?
@@ -288,7 +340,7 @@ struct OdptTrainInformation: Codable, Identifiable{
     
     var trainInformationStatus: OdptTitle{
         guard let status = self.odptTrainInformationStatus else{
-            return OdptTitle(ja: "平常運行", en: "Service on schedule")
+            return OdptTitle(ja: "平常運転", en: "Service on schedule")
         }
         
         return status
@@ -307,4 +359,9 @@ struct OdptTrainInformation: Codable, Identifiable{
 struct OdptTitle: Codable{
     var ja: String
     var en: String?
+}
+
+//MARK: データベースに保存するデータの定義
+class ManualRegisteredRailway: Object{
+    @objc dynamic var railway: String = ""
 }
