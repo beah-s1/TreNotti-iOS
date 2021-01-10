@@ -253,11 +253,12 @@
 			};
 			buildConfigurationList = 9608E75F257E9F240094A570 /* Build configuration list for PBXProject "TreNotti" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 9608E75B257E9F240094A570;
 			packageReferences = (
@@ -477,7 +478,7 @@
 				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
@@ -504,7 +505,7 @@
 				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
