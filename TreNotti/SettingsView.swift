@@ -7,6 +7,7 @@
 
 import SwiftUI
 import KeychainAccess
+import Sentry
 
 struct SettingsView: View {
     @State var isPresentResetAlert = false
@@ -46,6 +47,10 @@ struct SettingsView: View {
                                                                             let defaults = UserDefaults.standard
                                                                             defaults.removeObject(forKey: "trenotti.isFirstLaunch")
                                                                             try! keyStore.removeAll()
+                                                                            
+                                                                            let event = Event()
+                                                                            event.message = SentryMessage(formatted: "App has been reset")
+                                                                            SentrySDK.capture(event: event)
                                                                             exit(0)
                                                                         }))
                        })

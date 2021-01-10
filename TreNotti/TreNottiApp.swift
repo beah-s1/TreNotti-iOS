@@ -8,6 +8,7 @@
 import SwiftUI
 import Alamofire
 import KeychainAccess
+import Sentry
 
 @main
 struct TreNottiApp: App {
@@ -24,6 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     let keyStore = Keychain(service: Bundle.main.bundleIdentifier!)
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        // SentryのSetup
+        SentrySDK.start { options in
+            options.dsn = self.env.sentryDsn
+            options.debug = true
+        }
+        
         // APIキー取得済みか確認→なければ取得
         if !(keyStore["trenotti_api_key"] != nil){
             var parameters = Parameters()
@@ -55,6 +62,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             
             semaphore.wait()
         }
+        
+        // SentryのユーザーをSetup
+        let user = User()
+        user.userId = env.supportId
+        SentrySDK.setUser(user)
+        SentrySDK.capture(message: "LAUNCHED")
         
         // プッシュ通知関係
         let center = UNUserNotificationCenter.current()
@@ -89,6 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             switch response.result{
             case .success(let result):
                 guard let response = try? JSONDecoder().decode(ApiResponse.self, from: result) else{
+                    SentrySDK.capture(error: TNError.InvalidApiResponse)
                     fatalError("FAILED TO PARSE API RESPONSE")
                 }
                 
@@ -97,7 +111,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                 }
                 
                 break
-            default: return
+            default:
+                // エラーログ収集
+                SentrySDK.capture(error: TNError.ConnectionError)
+                return
             }
             
         }

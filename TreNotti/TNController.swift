@@ -11,6 +11,7 @@ import RealmSwift
 import CoreLocation
 import KeychainAccess
 import SwiftUI
+import Sentry
 
 //MARK: Main Controller
 class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
@@ -41,6 +42,9 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         
         // ベースとなる路線情報の取得（ローカルファイルから全件）
         guard let railwayJsonFileUrl = Bundle.main.path(forResource: "Railway", ofType: "json") else{
+            // エラーログ収集
+            SentrySDK.capture(error: TNError.InvalidFile)
+            
             fatalError("FAILED TO GET RAILWAY JSON FILE")
         }
         
@@ -48,11 +52,15 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             let railwayJsonFileString = try String(contentsOfFile: railwayJsonFileUrl)
             self.railwayList = try JSONDecoder().decode([OdptRailway].self, from: railwayJsonFileString.data(using: .utf8)!)
         }catch{
+            // エラーログ収集
+            SentrySDK.capture(error: TNError.InvalidFile)
             fatalError("FAILED TO PARSE RAILWAY JSON FILE")
         }
         
         // 運行情報が利用可能な事業者の取得
         guard let trainInformationAvailabilityFileUrl = Bundle.main.path(forResource: "TrainInformationAvailability", ofType: "json") else{
+            // エラーログ収集
+            SentrySDK.capture(error: TNError.InvalidFile)
             fatalError("FAILED TO GET TRAIN INFORMATION AVAILABILITY JSON FILE")
         }
         
@@ -63,7 +71,9 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             // 運行情報が利用可能な路線のみ表示するようフィルタする
             self.railwayList = self.railwayList.filter({ trainInformationAvailability.contains($0.odptOperator) })
         }catch{
-            assert(false, "FAILED TO PARSE TRAIN INFORMATION AVAILABILITY JSON FILE")
+            // エラーログ収集
+            SentrySDK.capture(error: TNError.InvalidFile)
+            fatalError("FAILED TO PARSE TRAIN INFORMATION AVAILABILITY JSON FILE")
         }
         
         // 位置情報関係
@@ -132,12 +142,17 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
                 self.alertDescription = "路線情報の登録に失敗しました"
                 self.isAlert = true
                 
+                SentrySDK.capture(error: TNError.FailedToUpdateRailway)
                 return
             }
             
             guard let responseData = response.data else{
                 return
             }
+            
+            let event = Event(level: .info)
+            event.message = .init(formatted: "registered railway has been updated")
+            SentrySDK.capture(event: event)
             
             self.registeredRailwayList = try! JSONDecoder().decode([String].self, from: responseData)
             print(self.registeredRailwayList)
@@ -161,6 +176,8 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
                 self.alertTitle = "エラー"
                 self.alertDescription = "運行情報の取得に失敗しました"
                 self.isAlert = true
+                
+                SentrySDK.capture(error: TNError.FailedToGetTrainInformation)
                 return
             }
             
@@ -376,4 +393,27 @@ struct OdptTitle: Codable{
 //MARK: データベースに保存するデータの定義
 class ManualRegisteredRailway: Object{
     @objc dynamic var railway: String = ""
+}
+
+//MARK: エラー
+enum TNError: Error{
+    case ConnectionError
+    case InvalidApiKey
+    case InvalidFile
+    case InvalidApiResponse
+    case FailedToUpdateRailway
+    case FailedToGetTrainInformation
+}
+
+extension TNError: LocalizedError{
+    var errorDescription: String? {
+        switch self{
+        case .ConnectionError: return "Connection Error"
+        case .FailedToGetTrainInformation: return "Failed to get train information"
+        case .FailedToUpdateRailway: return "Failed to update railway"
+        case .InvalidApiResponse: return "Invalid api response"
+        case .InvalidFile: return "Invalid file"
+        case .InvalidApiKey: return "Invalid api key"
+        }
+    }
 }
