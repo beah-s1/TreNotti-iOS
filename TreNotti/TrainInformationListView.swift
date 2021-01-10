@@ -26,6 +26,7 @@ struct TrainInformationListView: View {
                                        isPresentDescription: isPresentInformationDescription,
                                        railwayColor: r.color)
                                 .onTapGesture {
+                                    self.informationViewController.railway = r
                                     self.informationViewController.status = information
                                     self.isPresentInformationDescription.toggle()
                                 }
@@ -42,6 +43,7 @@ struct TrainInformationListView: View {
                                        isPresentDescription: isPresentInformationDescription,
                                        railwayColor: r.color)
                                 .onTapGesture {
+                                    self.informationViewController.railway = r
                                     self.informationViewController.status = information
                                     self.isPresentInformationDescription.toggle()
                                 }
@@ -66,7 +68,8 @@ struct TrainInformationListView: View {
             .sheet(isPresented: $isPresentInformationDescription, onDismiss: {
                 self.controller.updateRegisteredRailwayList()
             }){
-                TrainInformationView(controller: informationViewController, isPresent: $isPresentInformationDescription)
+                TrainInformationView(controller: informationViewController,
+                                     isPresent: $isPresentInformationDescription)
             }
             .onAppear(){
                 let s = UserDefaults.standard

@@ -40,7 +40,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         super.init()
         
         // ベースとなる路線情報の取得（ローカルファイルから全件）
-        guard let railwayJsonFileUrl = Bundle.main.path(forResource: "railway", ofType: "json") else{
+        guard let railwayJsonFileUrl = Bundle.main.path(forResource: "Railway", ofType: "json") else{
             assert(false, "FAILED TO GET RAILWAY JSON FILE")
         }
         
@@ -216,6 +216,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
 //MARK: 路線運行情報の詳細表示のController
 class TNTrainInformationController: NSObject, ObservableObject{
     @Published var status: OdptTrainInformation!
+    @Published var railway: OdptRailway!
     
     var isRegistered: Bool{
         return self.db.objects(ManualRegisteredRailway.self).filter{ $0.railway == self.status.odptRailway }.count == 0 ? false : true
@@ -223,8 +224,9 @@ class TNTrainInformationController: NSObject, ObservableObject{
     
     let db = try! Realm()
     
-    init(_ trainStatus: OdptTrainInformation){
+    init(_ trainStatus: OdptTrainInformation, _ railway: OdptRailway){
         self.status = trainStatus
+        self.railway = railway
     }
     
     override init(){
