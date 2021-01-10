@@ -11,6 +11,7 @@ import SwiftUI
 struct TrainInformationListView: View {
     @ObservedObject var controller = TNController()
     @State var isPresentInformationDescription = false
+    @State var isPresentFirstLaunchAlert = false
     @ObservedObject var informationViewController = TNTrainInformationController()
     
     var body: some View {
@@ -53,11 +54,28 @@ struct TrainInformationListView: View {
                       message: Text(controller.alertDescription),
                       dismissButton: .default(Text("OK")))
             })
-            
+            .alert(isPresented: $isPresentFirstLaunchAlert) {
+                Alert(title: Text("インストールありがとうございます！"),
+                      message: Text("バックグラウンドでも、現在地に基づいた運行情報を取得するため、設定アプリから位置情報の利用許可を「常に許可」に変更してください。"),
+                      dismissButton: .default(Text("設定を開く"),
+                                              action: {
+                                                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                                              })
+                      )
+            }
             .sheet(isPresented: $isPresentInformationDescription, onDismiss: {
                 self.controller.updateRegisteredRailwayList()
             }){
                 TrainInformationView(controller: informationViewController)
+            }
+            .onAppear(){
+                let s = UserDefaults.standard
+                if s.object(forKey: "trenotti.isFirstLaunch") != nil{
+                    return
+                }else{
+                    s.setValue(false, forKey: "trenotti.isFirstLaunch")
+                    self.isPresentFirstLaunchAlert = true
+                }
             }
             .navigationBarTitle(.init("運行情報一覧"))
             
