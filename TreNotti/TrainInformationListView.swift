@@ -19,9 +19,11 @@ struct TrainInformationListView: View {
                 Section(header: Text("登録済みの路線")){
                     List{
                         ForEach(controller.registeredRailwayTrainInformation){ information in
-                            StatusCell(railwayTitle: "\(controller.getRailway(key: information.odptRailway).railwayTitle.ja)",
+                            let r = controller.getRailway(key: information.odptRailway)
+                            StatusCell(railwayTitle: "\(r.railwayTitle.ja)",
                                        railwayStatus: "\(information.trainInformationStatus.ja)",
-                                       isPresentDescription: isPresentInformationDescription)
+                                       isPresentDescription: isPresentInformationDescription,
+                                       railwayColor: r.color)
                                 .onTapGesture {
                                     self.informationViewController.status = information
                                     self.isPresentInformationDescription.toggle()
@@ -33,9 +35,11 @@ struct TrainInformationListView: View {
                 Section(header: Text("その他の路線")) {
                     List{
                         ForEach(controller.otherRailwayTrainInformation){ information in
-                            StatusCell(railwayTitle: "\(controller.getRailway(key: information.odptRailway).railwayTitle.ja)",
+                            let r = controller.getRailway(key: information.odptRailway)
+                            StatusCell(railwayTitle: "\(r.railwayTitle.ja)",
                                        railwayStatus: "\(information.trainInformationStatus.ja)",
-                                       isPresentDescription: isPresentInformationDescription)
+                                       isPresentDescription: isPresentInformationDescription,
+                                       railwayColor: r.color)
                                 .onTapGesture {
                                     self.informationViewController.status = information
                                     self.isPresentInformationDescription.toggle()
@@ -65,11 +69,12 @@ struct StatusCell: View {
     var railwayTitle: String
     var railwayStatus: String
     @State var isPresentDescription: Bool
+    var railwayColor: Color
     
     var body: some View{
         HStack(alignment: .center){
             Rectangle()
-                .fill(Color.gray)
+                .fill(railwayColor)
                 .frame(width: 30)
                 .padding([.top, .bottom], -10)
                 .padding(.leading, -16)
@@ -100,5 +105,22 @@ struct TrainStatusView_Previews: PreviewProvider {
             TrainInformationListView()
                 .previewDevice("iPhone 11")
         }
+    }
+}
+
+extension Color {
+    init(hex: Int, alpha: Double = 1) {
+        let components = (
+            R: Double((hex >> 16) & 0xff) / 255,
+            G: Double((hex >> 08) & 0xff) / 255,
+            B: Double((hex >> 00) & 0xff) / 255
+        )
+        self.init(
+            .sRGB,
+            red: components.R,
+            green: components.G,
+            blue: components.B,
+            opacity: alpha
+        )
     }
 }

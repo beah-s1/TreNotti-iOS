@@ -10,6 +10,7 @@ import Alamofire
 import RealmSwift
 import CoreLocation
 import KeychainAccess
+import SwiftUI
 
 //MARK: Main Controller
 class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
@@ -204,7 +205,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
                                railwayTitle: OdptTitle(ja: "未定義", en: "undefined"),
                                odptOperator: "odpt.Operator:Undefined",
                                lineCode: nil,
-                               color: nil,
+                               odptColor: nil,
                                ascendingRailDirection: nil,
                                descendingRailDirection: nil,
                                stationOrder: [])
@@ -264,7 +265,7 @@ struct OdptRailway: Codable{
     var railwayTitle: OdptTitle
     var odptOperator: String
     var lineCode: String?
-    var color: String?
+    var odptColor: String?
     var ascendingRailDirection: String?
     var descendingRailDirection: String?
     var stationOrder: [StationOrder]
@@ -276,7 +277,7 @@ struct OdptRailway: Codable{
         case railwayTitle = "odpt:railwayTitle"
         case odptOperator = "odpt:operator"
         case lineCode = "odpt:lineCode"
-        case color = "odpt:color"
+        case odptColor = "odpt:color"
         case ascendingRailDirection = "odpt:ascendingRailDirection"
         case descendingRailDirection = "odpt:descendingRailDirection"
         case stationOrder = "odpt:stationOrder"
@@ -290,6 +291,15 @@ struct OdptRailway: Codable{
             case index = "odpt:index"
             case station = "odpt:station"
         }
+    }
+    
+    var color: Color{
+        guard let c = self.odptColor else{
+            return Color.gray
+        }
+        
+        let v = Int("000000" + c, radix: 16) ?? 0
+        return Color(hex: v)
     }
 }
 
