@@ -18,11 +18,11 @@
 		9608E7A6257F35550094A570 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9608E7A5257F35550094A570 /* RealmSwift */; };
 		9608E7AC257F35820094A570 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9608E7AB257F35820094A570 /* Alamofire */; };
 		96730EAC25AA10A10013B614 /* TrainInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730EAB25AA10A10013B614 /* TrainInformationView.swift */; };
-		969617FB25A9863F00C74310 /* train_information_availability.json in Resources */ = {isa = PBXBuildFile; fileRef = 969617FA25A9863F00C74310 /* train_information_availability.json */; };
+		96730EC825AB1B370013B614 /* Railway.json in Resources */ = {isa = PBXBuildFile; fileRef = 96730EC725AB1B370013B614 /* Railway.json */; };
+		969617FB25A9863F00C74310 /* TrainInformationAvailability.json in Resources */ = {isa = PBXBuildFile; fileRef = 969617FA25A9863F00C74310 /* TrainInformationAvailability.json */; };
 		969E5516258D8EBD00322029 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 969E5515258D8EBD00322029 /* KeychainAccess */; };
 		96DCE386258BF049009EBB12 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE385258BF049009EBB12 /* Env.swift */; };
 		96DCE38B258BF0BC009EBB12 /* TNController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE38A258BF0BC009EBB12 /* TNController.swift */; };
-		96DCE390258BF99B009EBB12 /* railway.json in Resources */ = {isa = PBXBuildFile; fileRef = 96DCE38F258BF99A009EBB12 /* railway.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,11 +57,11 @@
 		9608E786257E9F250094A570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9608E795257EA3E70094A570 /* TrainInformationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainInformationListView.swift; sourceTree = "<group>"; };
 		96730EAB25AA10A10013B614 /* TrainInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainInformationView.swift; sourceTree = "<group>"; };
-		969617FA25A9863F00C74310 /* train_information_availability.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = train_information_availability.json; sourceTree = "<group>"; };
+		96730EC725AB1B370013B614 /* Railway.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Railway.json; sourceTree = "<group>"; };
+		969617FA25A9863F00C74310 /* TrainInformationAvailability.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TrainInformationAvailability.json; sourceTree = "<group>"; };
 		96A04A2D25A615FB00549DD5 /* TreNotti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TreNotti.entitlements; sourceTree = "<group>"; };
 		96DCE385258BF049009EBB12 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		96DCE38A258BF0BC009EBB12 /* TNController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNController.swift; sourceTree = "<group>"; };
-		96DCE38F258BF99A009EBB12 /* railway.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = railway.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,10 +124,10 @@
 				96DCE385258BF049009EBB12 /* Env.swift */,
 				96DCE38A258BF0BC009EBB12 /* TNController.swift */,
 				9608E76B257E9F250094A570 /* Assets.xcassets */,
-				96DCE38F258BF99A009EBB12 /* railway.json */,
+				96730EC725AB1B370013B614 /* Railway.json */,
+				969617FA25A9863F00C74310 /* TrainInformationAvailability.json */,
 				9608E770257E9F250094A570 /* Info.plist */,
 				9608E76D257E9F250094A570 /* Preview Content */,
-				969617FA25A9863F00C74310 /* train_information_availability.json */,
 			);
 			path = TreNotti;
 			sourceTree = "<group>";
@@ -272,9 +272,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				969617FB25A9863F00C74310 /* train_information_availability.json in Resources */,
+				969617FB25A9863F00C74310 /* TrainInformationAvailability.json in Resources */,
+				96730EC825AB1B370013B614 /* Railway.json in Resources */,
 				9608E76F257E9F250094A570 /* Preview Assets.xcassets in Resources */,
-				96DCE390258BF99B009EBB12 /* railway.json in Resources */,
 				9608E76C257E9F250094A570 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

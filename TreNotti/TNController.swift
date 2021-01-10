@@ -52,7 +52,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         }
         
         // 運行情報が利用可能な事業者の取得
-        guard let trainInformationAvailabilityFileUrl = Bundle.main.path(forResource: "train_information_availability", ofType: "json") else{
+        guard let trainInformationAvailabilityFileUrl = Bundle.main.path(forResource: "TrainInformationAvailability", ofType: "json") else{
             assert(false, "FAILED TO GET TRAIN INFORMATION AVAILABILITY JSON FILE")
         }
         

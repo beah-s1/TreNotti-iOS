@@ -94,7 +94,7 @@ struct StatusCell: View {
             Rectangle()
                 .fill(railwayColor)
                 .frame(width: 30)
-                .padding([.top, .bottom], -10)
+                .padding([.top, .bottom], -6)
                 .padding(.leading, -16)
             
             VStack(alignment: .leading){
