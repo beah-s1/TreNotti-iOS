@@ -473,7 +473,7 @@
 				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
@@ -500,7 +500,7 @@
 				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
