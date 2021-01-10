@@ -9,8 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        TabView{
+            TrainInformationListView()
+                .tabItem {
+                    VStack{
+                        Image(systemName: "tram")
+                        Spacer()
+                        Text("運行情報")
+                    }
+                }
+            SettingsView()
+                .tabItem {
+                    VStack{
+                        Image(systemName: "gear")
+                        Spacer()
+                        Text("設定・ヘルプ")
+                    }
+                }
+        }
     }
 }
 

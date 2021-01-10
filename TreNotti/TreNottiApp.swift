@@ -14,7 +14,7 @@ struct TreNottiApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            TrainInformationListView()
+            ContentView()
         }
     }
 }
@@ -38,12 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                     do{
                         let data = try JSONDecoder().decode(ApiResponse.self, from: result)
                         guard let key = data.token else{
-                            assert(false, "FAILED TO GET API TOKEN")
+                            fatalError("FAILED TO GET API TOKEN")
                         }
                         
                         self.keyStore["trenotti_api_key"] = key
                     }catch{
-                        assert(false, "FAILED TO GET API TOKEN")
+                        fatalError("FAILED TO GET API TOKEN")
                     }
                     break
                 case .failure(let error):
@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             switch response.result{
             case .success(let result):
                 guard let response = try? JSONDecoder().decode(ApiResponse.self, from: result) else{
-                    assert(false, "FAILED TO PARSE API RESPONSE")
+                    fatalError("FAILED TO PARSE API RESPONSE")
                 }
                 
                 if let responseMessage = response.description{

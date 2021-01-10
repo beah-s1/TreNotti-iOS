@@ -66,7 +66,7 @@ struct TrainInformationListView: View {
                       )
             }
             .sheet(isPresented: $isPresentInformationDescription, onDismiss: {
-                self.controller.updateRegisteredRailwayList()
+                try! self.controller.updateRegisteredRailwayList()
             }){
                 TrainInformationView(controller: informationViewController,
                                      isPresent: $isPresentInformationDescription)

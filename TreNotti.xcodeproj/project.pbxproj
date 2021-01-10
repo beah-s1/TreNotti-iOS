@@ -21,6 +21,8 @@
 		96730EC825AB1B370013B614 /* Railway.json in Resources */ = {isa = PBXBuildFile; fileRef = 96730EC725AB1B370013B614 /* Railway.json */; };
 		969617FB25A9863F00C74310 /* TrainInformationAvailability.json in Resources */ = {isa = PBXBuildFile; fileRef = 969617FA25A9863F00C74310 /* TrainInformationAvailability.json */; };
 		969E5516258D8EBD00322029 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 969E5515258D8EBD00322029 /* KeychainAccess */; };
+		96CF6DD825AB2146004DF7E5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF6DD725AB2146004DF7E5 /* SettingsView.swift */; };
+		96CF6DE125AB2D9B004DF7E5 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 96CF6DE025AB2D9B004DF7E5 /* JWTDecode */; };
 		96DCE386258BF049009EBB12 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE385258BF049009EBB12 /* Env.swift */; };
 		96DCE38B258BF0BC009EBB12 /* TNController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCE38A258BF0BC009EBB12 /* TNController.swift */; };
 /* End PBXBuildFile section */
@@ -60,6 +62,7 @@
 		96730EC725AB1B370013B614 /* Railway.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Railway.json; sourceTree = "<group>"; };
 		969617FA25A9863F00C74310 /* TrainInformationAvailability.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TrainInformationAvailability.json; sourceTree = "<group>"; };
 		96A04A2D25A615FB00549DD5 /* TreNotti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TreNotti.entitlements; sourceTree = "<group>"; };
+		96CF6DD725AB2146004DF7E5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		96DCE385258BF049009EBB12 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		96DCE38A258BF0BC009EBB12 /* TNController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +75,7 @@
 				969E5516258D8EBD00322029 /* KeychainAccess in Frameworks */,
 				9608E7AC257F35820094A570 /* Alamofire in Frameworks */,
 				9608E7A6257F35550094A570 /* RealmSwift in Frameworks */,
+				96CF6DE125AB2D9B004DF7E5 /* JWTDecode in Frameworks */,
 				9608E7A4257F35550094A570 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,6 +127,7 @@
 				96730EAB25AA10A10013B614 /* TrainInformationView.swift */,
 				96DCE385258BF049009EBB12 /* Env.swift */,
 				96DCE38A258BF0BC009EBB12 /* TNController.swift */,
+				96CF6DD725AB2146004DF7E5 /* SettingsView.swift */,
 				9608E76B257E9F250094A570 /* Assets.xcassets */,
 				96730EC725AB1B370013B614 /* Railway.json */,
 				969617FA25A9863F00C74310 /* TrainInformationAvailability.json */,
@@ -179,6 +184,7 @@
 				9608E7A5257F35550094A570 /* RealmSwift */,
 				9608E7AB257F35820094A570 /* Alamofire */,
 				969E5515258D8EBD00322029 /* KeychainAccess */,
+				96CF6DE025AB2D9B004DF7E5 /* JWTDecode */,
 			);
 			productName = TreNotti;
 			productReference = 9608E764257E9F240094A570 /* TreNotti.app */;
@@ -255,6 +261,7 @@
 				9608E7A2257F35550094A570 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 				9608E7AA257F35820094A570 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				969E5514258D8EBD00322029 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				96CF6DDF25AB2D9B004DF7E5 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
 			);
 			productRefGroup = 9608E765257E9F240094A570 /* Products */;
 			projectDirPath = "";
@@ -300,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96CF6DD825AB2146004DF7E5 /* SettingsView.swift in Sources */,
 				9608E796257EA3E70094A570 /* TrainInformationListView.swift in Sources */,
 				96DCE38B258BF0BC009EBB12 /* TNController.swift in Sources */,
 				96DCE386258BF049009EBB12 /* Env.swift in Sources */,
@@ -465,6 +473,7 @@
 				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
@@ -474,11 +483,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.beah.TreNotti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "TreNotti-Dev";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -490,6 +500,7 @@
 				CODE_SIGN_ENTITLEMENTS = TreNotti/TreNotti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "TreNotti/railway.json TreNotti/Preview\\ Content";
 				DEVELOPMENT_TEAM = 9YN493UFZE;
 				ENABLE_PREVIEWS = YES;
@@ -499,11 +510,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.beah.TreNotti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "TreNotti-Dev";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -657,6 +669,14 @@
 				minimumVersion = 4.2.1;
 			};
 		};
+		96CF6DDF25AB2D9B004DF7E5 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -679,6 +699,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 969E5514258D8EBD00322029 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		96CF6DE025AB2D9B004DF7E5 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96CF6DDF25AB2D9B004DF7E5 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
+			productName = JWTDecode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

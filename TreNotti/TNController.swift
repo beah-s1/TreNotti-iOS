@@ -41,19 +41,19 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         
         // ベースとなる路線情報の取得（ローカルファイルから全件）
         guard let railwayJsonFileUrl = Bundle.main.path(forResource: "Railway", ofType: "json") else{
-            assert(false, "FAILED TO GET RAILWAY JSON FILE")
+            fatalError("FAILED TO GET RAILWAY JSON FILE")
         }
         
         do{
             let railwayJsonFileString = try String(contentsOfFile: railwayJsonFileUrl)
             self.railwayList = try JSONDecoder().decode([OdptRailway].self, from: railwayJsonFileString.data(using: .utf8)!)
         }catch{
-            assert(false, "FAILED TO PARSE RAILWAY JSON FILE")
+            fatalError("FAILED TO PARSE RAILWAY JSON FILE")
         }
         
         // 運行情報が利用可能な事業者の取得
         guard let trainInformationAvailabilityFileUrl = Bundle.main.path(forResource: "TrainInformationAvailability", ofType: "json") else{
-            assert(false, "FAILED TO GET TRAIN INFORMATION AVAILABILITY JSON FILE")
+            fatalError("FAILED TO GET TRAIN INFORMATION AVAILABILITY JSON FILE")
         }
         
         do{
@@ -78,7 +78,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         // 大幅位置情報変更サービスの利用
         locationManager.startMonitoringSignificantLocationChanges()
         
-        self.updateTrainStatus()
+        try! self.updateTrainStatus()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -107,10 +107,10 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             semaphore.wait()
         }
         
-        updateRegisteredRailwayList()
+        try! updateRegisteredRailwayList()
     }
     
-    func updateRegisteredRailwayList(){
+    func updateRegisteredRailwayList() throws{
         var nearRailwayList = self.nearStationList.map{ $0.railway }
         
         // 手動で選択された路線を追加する
@@ -118,7 +118,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
         nearRailwayList += manualRegisteredRailwayList
         
         guard let apiKey = self.keyStore["trenotti_api_key"] else{
-            assert(false, "API KEY IS INVALID")
+            throw NSError(domain: "API KEY IS INVALID", code: -1, userInfo: nil)
         }
         
         var headers = HTTPHeaders()
@@ -136,22 +136,22 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             }
             
             guard let responseData = response.data else{
-                assert(false, "INTERNAL SERVER ERROR")
+                return
             }
             
             self.registeredRailwayList = try! JSONDecoder().decode([String].self, from: responseData)
             print(self.registeredRailwayList)
             
-            self.updateTrainStatus()
+            try! self.updateTrainStatus()
         }
     }
     
-    func updateTrainStatus(){
+    func updateTrainStatus() throws{
         self.registeredRailwayTrainInformation.removeAll()
         self.otherRailwayTrainInformation.removeAll()
         
         guard let apiKey = self.keyStore["trenotti_api_key"] else{
-            assert(false, "API KEY IS INVALID")
+            throw NSError(domain: "API KEY IS INVALID", code: -1, userInfo: nil)
         }
         
         var headers = HTTPHeaders()
@@ -165,7 +165,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
             }
             
             guard let responseData = response.data else{
-                assert(false, "INTERNAL SERVER ERROR")
+                return
             }
             
             do{
@@ -182,7 +182,7 @@ class TNController: NSObject, ObservableObject, CLLocationManagerDelegate{
                 self.registeredRailwayTrainInformation.sort(by: { $0.sameAs < $1.sameAs })
                 self.otherRailwayTrainInformation.sort(by: { $0.sameAs < $1.sameAs })
             }catch{
-                assert(false, "FAILED TO PARSE TRAIN STATUS DATA")
+                return
             }
             
             print(self.registeredRailwayTrainInformation)
