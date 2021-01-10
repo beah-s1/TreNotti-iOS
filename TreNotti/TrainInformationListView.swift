@@ -66,7 +66,7 @@ struct TrainInformationListView: View {
             .sheet(isPresented: $isPresentInformationDescription, onDismiss: {
                 self.controller.updateRegisteredRailwayList()
             }){
-                TrainInformationView(controller: informationViewController)
+                TrainInformationView(controller: informationViewController, isPresent: $isPresentInformationDescription)
             }
             .onAppear(){
                 let s = UserDefaults.standard

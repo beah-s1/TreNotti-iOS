@@ -120,6 +120,7 @@
 				9608E767257E9F240094A570 /* TreNottiApp.swift */,
 				9608E769257E9F240094A570 /* ContentView.swift */,
 				9608E795257EA3E70094A570 /* TrainInformationListView.swift */,
+				96730EAB25AA10A10013B614 /* TrainInformationView.swift */,
 				96DCE385258BF049009EBB12 /* Env.swift */,
 				96DCE38A258BF0BC009EBB12 /* TNController.swift */,
 				9608E76B257E9F250094A570 /* Assets.xcassets */,
@@ -127,7 +128,6 @@
 				9608E770257E9F250094A570 /* Info.plist */,
 				9608E76D257E9F250094A570 /* Preview Content */,
 				969617FA25A9863F00C74310 /* train_information_availability.json */,
-				96730EAB25AA10A10013B614 /* TrainInformationView.swift */,
 			);
 			path = TreNotti;
 			sourceTree = "<group>";

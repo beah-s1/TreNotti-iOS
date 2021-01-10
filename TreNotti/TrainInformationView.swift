@@ -11,6 +11,7 @@ import SwiftUI
 struct TrainInformationView: View {
     @ObservedObject var controller: TNTrainInformationController
     @State var isRegistered = false
+    @Binding var isPresent: Bool
     
     var body: some View {
         Form{
@@ -32,6 +33,12 @@ struct TrainInformationView: View {
                     }
                 })
             }
+            
+            Button(action: {
+                isPresent.toggle()
+            }, label: {
+                Text("閉じる")
+            })
         }
         .padding()
         .onAppear(){
